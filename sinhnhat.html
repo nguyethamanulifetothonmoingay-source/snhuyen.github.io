@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Sinh nhật Huyền 💖</title>
+  <style>
+    
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(to right, #ffe6f0, #ffe6e6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    
+
+    .birthday-box {
+      position: relative;
+      background: #fff;
+      border: 3px solid #ff3399;
+      border-radius: 20px;
+      padding: 20px;
+      width: 80%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 0, 150, 0.3);
+      overflow: hidden;
+    }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #ff3399;
+      font-size: 5vw;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    h2 img {
+      width: 15vw;
+      max-width: 60px;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    p {
+      font-size: 4vw;
+      color: #333;
+      line-height: 1.5;
+      margin: 8px 0;
+    }
+
+    input[type="password"] {
+      padding: 10px;
+      font-size: 4vw;
+      width: 80%;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 4.2vw;
+      background-color: #ff6699;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background-color: #ff3399;
+    }
+
+    #message {
+      margin-top: 15px;
+      font-size: 4vw;
+      color: green;
+    }
+
+    /* ❤️ Trái tim đập */
+     .heart {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      background-color: #ff3366;
+      transform: rotate(-45deg);
+      animation: heartbeat 1s infinite;
+      margin: 0 auto 15px;
+      box-shadow: 0 0 15px rgba(255, 0, 150, 0.5);
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background-color: #ff3366;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -30px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 30px;
+      top: 0;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: rotate(-45deg) scale(1); }
+      25% { transform: rotate(-45deg) scale(1.1); }
+      50% { transform: rotate(-45deg) scale(1.2); }
+      75% { transform: rotate(-45deg) scale(1.1); }
+    }
+
+    /* 🎂 Ảnh phần 3 – nhỏ gọn hơn */
+    .cake {
+      width: 50%;
+      max-width: 100px;
+      border-radius: 10px;
+      margin-bottom: 2px;
+      box-shadow: 0 0 10px rgba(255, 102, 153, 0.5);
+    }
+
+    .avatar {
+      width: 30vw;
+      max-width: 90px;
+      height: auto;
+      border-radius: 50%;
+      border: 3px solid #ff99cc;
+      box-shadow: 0 0 10px rgba(255, 0, 150, 0.4);
+      margin-top: 10px;
+    }
+
+    /* 🐱 Mèo chạy quanh */
+    .cat-runner {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background-image: url("img/giphy (1).gif");
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: runAround 8s linear infinite;
+    }
+
+    @keyframes runAround {
+      0%   { top: -30px; left: -30px; }
+      25%  { top: -40px; left: calc(100% - 25px); }
+      50%  { top: calc(100% - 30px); left: calc(100% - 30px); }
+      75%  { top: calc(100% - 30px); left: -30px; }
+      100% { top: -30px; left: -30px; }
+    }
+
+    /* 💃 Vũ công */
+    .dancer-group {
+      position: fixed;
+      right: 10px;
+      bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 9999;
+    }
+
+    .dancer {
+      width: 60px;
+      height: auto;
+      animation: bounce 1s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    canvas {
+      pointer-events: none;
+    }
+
+    @media (max-width: 400px) {
+      h2 { font-size: 18px; }
+      p { font-size: 14px; }
+      input[type="password"], button { font-size: 15px; }
+    }
+  </style>
+</head>
+<audio id="bgMusic" loop>
+  <source src="music/HIEUTHUHAI - SINH NHẬT (prod. by Wonderlust).mp3" type="audio/mpeg">
+</audio>
+
+<!-- Nút bật/tắt nhạc -->
+<button id="musicBtn" onclick="toggleMusic()">🎵</button>
+
+<script>
+  const music = document.getElementById("bgMusic");
+  const musicBtn = document.getElementById("musicBtn");
+  let isPlaying = false;
+
+  function toggleMusic() {
+    if (isPlaying) {
+      music.pause();
+      musicBtn.textContent = "🔇";
+    } else {
+      music.play();
+      musicBtn.textContent = "🎵";
+    }
+    isPlaying = !isPlaying;
+  }
+</script>
+<style>
+  #musicBtn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background-color: #ff66b2;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 80px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+  z-index: 10000;
+  transition: transform 0.2s ease, background-color 0.3s;
+}
+
+#musicBtn:hover {
+  transform: scale(1.1);
+  background-color: #ff3399;
+}
+
+</style>
+<body>
+  <div class="birthday-box">
+    <!-- Mật khẩu -->
+    <div id="loginBox">
+      <h2>
+        <img src="img/6f5e4e4370150a1502959fd99a727896.jpg" alt="Bánh kem" />
+        Nhập mật khẩu đi Đaica 💖
+      </h2>
+      <p>Vui lòng nhập mật khẩu sinh nhật của bạn:</p>
+      <input type="password" id="password" placeholder="hue cute :3" />
+      <br />
+      <button onclick="kiemTraMatKhau()">Xác nhận</button>
+      <div id="message"></div>
+    </div>
+
+    <!-- Lời chúc -->
+    <div id="happyBox" class="hidden">
+      <h2>
+        <img src="img/Happy birthday el gato.jpg" alt="Bánh kem" />
+        Chúc mừng sinh nhật 🎂
+      </h2>
+      <p>Chúc chị Huyền sinh nhật thật vui vẻ, bình an và luôn gặp nhiều may mắn trong cuộc sống.  
+        Tuổi mới ngập tràn hạnh phúc và yêu thương! 🌸💖
+      </p>
+      <button id="btnTiepTuc" onclick="hienPhan3()">💖 Tiếp tục 💖</button>
+      <div class="cat-runner"></div>
+    </div>
+
+    <!-- Phần 3 -->
+    <div id="phan3" class="hidden">
+      <div class="heart"></div>
+      <h2>🎉 Sinh nhật hạnh phúc nhé, chị Huyền 🎉</h2>
+      <img src="img/tải xuống.png" alt="Bánh sinh nhật" class="cake" />
+      <br />
+      <img src="img/28fe955c-a889-4501-9426-1be78d029551.jpg" alt="Avatar" class="avatar" />
+      <p>Chúc chị luôn xinh đẹp, thành công và hạnh phúc trong mọi điều 💐💗</p>
+    </div>
+  </div>
+
+  <script>
+    const matKhauDung = "1510";
+    function kiemTraMatKhau() {
+      const mk = document.getElementById("password").value.trim();
+      const message = document.getElementById("message");
+      if (mk === matKhauDung) {
+        document.getElementById("loginBox").classList.add("hidden");
+        document.getElementById("happyBox").classList.remove("hidden");
+        message.textContent = "";
+      } else {
+        message.textContent = "❌ Sai mật khẩu. Vui lòng thử lại!";
+        message.style.color = "red";
+      }
+    }
+    function hienPhan3() {
+      document.getElementById("happyBox").classList.add("hidden");
+      document.getElementById("phan3").classList.remove("hidden");
+    }
+  </script>
+
+  <script src="https://webdanang.com.vn/jsShare/hoa-dao-roi.js"></script>
+
+  <div class="dancer-group">
+    <img src="img/giphy.gif" class="dancer" />
+  </div>
+</body>
+</html>
